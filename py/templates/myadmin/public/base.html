@@ -5,7 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% block title %}
     <title>Amaze UI Admin index Examples</title>
+    {% endblock %}
     <meta name="description" content="这是一个 index 页面">
     <meta name="keywords" content="index">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -203,7 +205,7 @@
             <!-- 菜单 -->
             <ul class="sidebar-nav">
                 <li class="sidebar-nav-link">
-                    <a href="index.html" class="active">
+                    <a href="{% url 'myadmin_user_list' %}" class="active">
                         <i class="am-icon-home sidebar-nav-link-logo"></i> 首页
                     </a>
                 </li>
@@ -216,13 +218,13 @@
                     </a>
                     <ul class="sidebar-nav sidebar-nav-sub">
                         <li class="sidebar-nav-link">
-                            <a href="table-list.html">
+                            <a href="{% url 'myadmin_user_add' %}">
                                 <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 会员添加
                             </a>
                         </li>
 
                         <li class="sidebar-nav-link">
-                            <a href="table-list-img.html">
+                            <a href="{% url 'myadmin_user_list' %}">
                                 <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 会员列表
                             </a>
                         </li>
@@ -296,16 +298,17 @@
         <div class="tpl-content-wrapper">
 
             <div class="container-fluid am-cf">
+            {% block header %}   
                 <div class="row">
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
-<!--                         <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 部件首页 <small>Amaze UI</small></div>
+                        <!-- <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 部件首页 <small>Amaze UI</small></div>
                         <p class="page-header-description">Amaze UI 含近 20 个 CSS 组件、20 余 JS 组件，更有多个包含不同主题的 Web 组件。</p> -->
                     </div>
                     <div class="am-u-lg-3 tpl-index-settings-button">
                         <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> 设置</button>
                     </div>
                 </div>
-
+            {% endblock %}
             </div>
 
             <div class="row-content am-cf">
