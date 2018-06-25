@@ -1,7 +1,7 @@
 {% extends 'myadmin/public/base.html' %}
 
 {% block title %}
-<title>后台商品添加</title>
+<title>后台会员列表</title>
 {% endblock %}
 
 {% block header %}
@@ -9,7 +9,7 @@
     <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
         <div class="page-header-heading">
             <span class="am-icon-home page-header-heading-icon"></span> 
-            商品添加 <small>Amaze UI</small>
+            会员列表 <small>Amaze UI</small>
         </div>
     </div>
 </div>
@@ -17,131 +17,149 @@
 
 
 {% block con %}
-<link rel="stylesheet" type="text/css" href="/static/myadmin/css/bootstrap-fileinput.css">
-<script type="text/javascript" src="/static/myadmin/js/bootstrap-fileinput.js"></script>
+<div class="row-content am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+            <div class="widget am-cf">
+                <div class="widget-head am-cf">
+                    <div class="widget-title  am-cf">会员列表</div>
 
-<div class="row">
-    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
-        <div class="widget am-cf">
-            <div class="widget-body am-fr">
 
-                <form action="{% url 'myadmin_goods_add' %}" method="post" enctype="multipart/form-data" class="am-form tpl-form-line-form">
-                    {% csrf_token %}
-                    
-                    <div class="am-form-group">
-                        <label for="user-name" class="am-u-sm-3 am-form-label">
-                            所属分类
-                        </label>
-                        <div class="am-u-sm-9">
-                            <select name="typeid" data-am-selected="{btnSize: 'sm'}">
-                                {% for v in tlist %}
+                </div>
+                <div class="widget-body  am-fr">
 
-                                {% if v.pid == 0 %}
-                                <option disabled value="{{ v.id }}">{{ v.name }}</option>
-
-                                {% else %}
-                                <option value="{{ v.id }}">{{ v.name }}</option>
-
-                                {% endif %}
-                                {% endfor %}
-                            </select>
+                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                        <div class="am-form-group">
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button>
+                                    <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
+                                    <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button>
+                                    <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="am-form-group">
-                        <label for="user-name" class="am-u-sm-3 am-form-label">
-                            商品名
-                        </label>
-                        <div class="am-u-sm-9">
-                            <input type="text" name="title" required minlength="6" maxlength="255" 
-                            class="tpl-form-input"  placeholder="请输入商品名称">
+                    <form>
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                            <div class="am-form-group tpl-table-list-select">
+                                <select name="type" data-am-selected="{btnSize: 'sm'}" style="display: none;">
+                                  <option value="all" {% if request.GET.type == 'all' %} selected {% endif %} >所有条件</option>
+                                  <option value="username" {% if request.GET.type == 'username' %} selected {% endif %} >姓名</option>
+                                  <option value="age" {% if request.GET.type == 'age' %} selected {% endif %} >年龄</option>
+                                  <option value="email" {% if request.GET.type == 'email' %} selected {% endif %} >邮箱</option>
+                                  <option value="phone" {% if request.GET.type == 'phone' %} selected {% endif %} >手机号</option>
+                                  <option value="sex" {% if request.GET.type == 'sex' %} selected {% endif %} >性别</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                        <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                            <input type="text" name="keywords" class="am-form-field " value="{{ request.GET.keywords }}">
+                            <span class="am-input-group-btn">
+                                <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search"></button>
+                            </span>
                         </div>
                     </div>
-
-                    <div class="am-form-group">
-                        <label for="user-name" class="am-u-sm-3 am-form-label">
-                            商品描述
-                        </label>
-                        <div class="am-u-sm-9">
-                            <input type="text" name="descr" required minlength="6" maxlength="255" 
-                            class="tpl-form-input"  placeholder="请输入商品描述">
-                        </div>
-                    </div>
+                </form>
 
 
-                    <div class="am-form-group">
-                        <label for="user-name" class="am-u-sm-3 am-form-label">
-                            商品价格
-                        </label>
-                        <div class="am-u-sm-9">
-                            <input type="text" name="price" required class="tpl-form-input" >
-                        </div>
-                    </div>
+                <div class="am-u-sm-12">
+                    <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black ">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>商品缩略图</th>
+                                <th>商品名</th>
+                                <th>商品所属分类</th>
+                                <th>价格</th>
+                                <th>库存</th>
+                                <th>点击量</th>
+                                <th>购买数量</th>
+                                <th>状态</th>
+                                <th>添加时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for v in glist %}
+                            <tr>
+                                <td class="am-text-middle">{{ v.id }}</td>
+                                <td>
+                                    <img src="{{ v.pics }}" class="tpl-table-line-img" alt="">
+                                </td>
+                                <td class="am-text-middle">{{ v.title }}</td>
+                                <!-- <td class="am-text-middle">{{ v.descr|truncatechars:10 }}</td> -->
+                                <td class="am-text-middle">{{ v.typeid.name }}</td>
+                                <td class="am-text-middle">{{ v.price }}</td>
+                                <td class="am-text-middle">{{ v.store }}</td>
+                                <td class="am-text-middle">{{ v.clicknum }}</td>
+                                <td class="am-text-middle">{{ v.num }}</td>
+                                <td class="am-text-middle">
+                                    {% if v.status == 0 %}
+                                    新发布
+                                    {% else %}
+                                    下架
+                                    {% endif %}
 
-
-                    <div class="am-form-group">
-                        <label for="user-name" class="am-u-sm-3 am-form-label">
-                            商品库存数量
-                        </label>
-                        <div class="am-u-sm-9">
-                            <input type="text" name="store" required class="tpl-form-input" >
-                        </div>
-                    </div>
-
-
-                    <div class="am-form-group">
-                        <label for="user-weibo" class="am-u-sm-3 am-form-label">上传商品图片 </label>
-                        <div class="am-u-sm-9 fileinput fileinput-new" data-provides="fileinput"  id="exampleInputUpload">
-                           <div class="tpl-form-file-img fileinput-new thumbnail" >
-                               <img id='picImg'  src="{{ uinfo.pic }}" width="150" />
-                           </div>
-                           <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-                           <div>
-                               <span class="btn btn-primary btn-file">
-                                   <span class="fileinput-new am-btn am-btn-danger am-btn-sm">选择文件</span>
-                                   <span class="fileinput-exists am-btn am-btn-danger am-btn-sm">换一张</span>
-                                   <input type="file" name="pic" id="picID" accept="image/gif,image/jpeg,image/x-png"/>
-                               </span>
-                               <a href="javascript:;" class=" fileinput-exists am-btn am-btn-danger am-btn-sm" data-dismiss="fileinput">移除</a>
-                           </div>
-                       </div>
-                   </div>
-
-                   <div class="am-form-group">
-                    <label for="user-name" class="am-u-sm-3 am-form-label">
-                        商品详情
-                    </label>
-                    <div class="am-u-sm-9">
-                        <link rel="stylesheet" type="text/css" href="/ueditor/UE/third-party/SyntaxHighlighter/shCoreDefault.css">
-                        <script type="text/javascript" src="/ueditor/UE/third-party/SyntaxHighlighter/shCore.js"></script>
-                        <script type="text/javascript" src="/ueditor/UE/ueditor.config.js"></script>
-                        <script type="text/javascript" src="/ueditor/UE/ueditor.all.min.js"></script>
-                        <script type="text/javascript" src="/ueditor/UE/lang/zh-cn/zh-cn.js"></script>
-
-
-                        <script style="color:red" id="editor" name="info" type="text/plain" style="height:500px;">
+                                </td>
+                                <td class="am-text-middle">{{ v.addtime|date:"Y-m-d H:i:s" }}</td>
+                                <td class="am-text-middle">
+                                    <div class="tpl-table-black-operation">
+                                        <a href="{% url 'myadmin_user_edit' %}?uid={{ v.id }}">
+                                            <i class="am-icon-pencil"></i> 编辑
+                                        </a>
+                                        <a href="javascript:;" class="tpl-table-black-operation-del">
+                                            <i class="am-icon-trash"></i> 删除
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
                             
-                        </script>
-                        
+                            <!-- more data -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="am-u-lg-12 am-cf">
+                    <div class="am-fr">
+                        <ul class="am-pagination tpl-pagination">
+                           <!--      <li class="am-disabled"><a href="#">«</a></li>
+                                <li class="am-active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#">»</a></li> -->
 
-
-                        <script type="text/javascript">
-                            var ue = UE.getEditor('editor');
-                            SyntaxHighlighter.all();
-                        </script>
+                                
+                            </ul>
+                        </div>
                     </div>
                 </div>
-
-                
-                <div class="am-form-group">
-                    <div class="am-u-sm-9 am-u-sm-push-3">
-                        <button  class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button></div>
-                    </div>
-
-                </form>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
 
+    // 删除
+    $('.tpl-table-black-operation-del').click(function(){
+
+        id = $(this).parents('tr').find('td:eq(0)').text()
+        a = $(this)
+
+        $.get("{% url 'myadmin_user_delete' %}",{uid:id},function(data){
+            alert(data.msg)
+            if(data.code == 0){
+                // 成功,移动当前这一条数据
+                // $(this).parents('tr').remove() // x 
+                // $(this)在此处,代表的是ajax对象 XMLHttpRequest
+                a.parents('tr').remove() 
+            }
+
+        },'json')
+    })
+</script>
 {% endblock%}
