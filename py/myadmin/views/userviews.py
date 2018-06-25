@@ -8,12 +8,80 @@ import os
 
 # 会员列表
 def index(request):
-    # 获取所有的用户数据
-    userlist = Users.objects.all()[:10]
-    # 分配数据
-    context = {'userlist':userlist}
-    # 加载模版
+
+    # 获取搜索条件
+    types = request.GET.get('type',None)
+    keywords = request.GET.get('keywords',None)
+
+    # 判断 是否具有搜索条件
+    if types:
+        # 有搜索条件的情况下
+        if types == 'all':
+            # 全条件搜索
+            # 类似于 mysql中的:select * from user where username like "%张%"
+            from django.db.models import Q
+            userlist = Users.objects.filter(
+                Q(username__contains=keywords)|
+                Q(age__contains=keywords)|
+                Q(email__contains=keywords)|
+                Q(phone__contains=keywords)|
+                Q(sex__contains=keywords)
+            )
+        elif types == 'username':
+            # 按照用户名搜索
+            userlist = Users.objects.filter(username__contains=keywords)
+
+        elif types == 'age':
+            # 按照年龄搜索
+            userlist = Users.objects.filter(age__contains=keywords)
+        
+        elif types == 'email':
+            # 按照邮箱搜索
+            userlist = Users.objects.filter(email__contains=keywords)
+        
+        elif types == 'phone':
+            # 按照电话搜索
+            userlist = Users.objects.filter(phone__contains=keywords)
+
+        elif types == 'sex':
+            # 按照性别搜索
+            userlist = Users.objects.filter(sex__contains=keywords)
+
+    else:
+        # 获取所有用户的数据
+        userlist = Users.objects.filter()
+
+    # print(44444)
+    
+        # 判断排序条件
+        # userlist = userlist.order_by('-id')
+
+    # 导入分页类
+    from django.core.paginator import Paginator
+    # 实例化分页对象 参数1 数据集合,参数2 每页显示的条数
+    paginator = Paginator(userlist,10)
+    # 获取当前的页码数
+    p = request.GET.get('p',1)
+    # 获取当前页的数据
+    ulist = paginator.page(p)
+
+        # 分配数据
+    context = {'userlist':ulist}
+
+        # 加载模版
     return render(request,'myadmin/user/list.html',context)
+
+
+
+
+
+
+    # # 获取所有的用户数据
+    # userlist = Users.objects.all()[:10]
+    # # 分配数据
+    # context = {'userlist':userlist}
+    # # 加载模版
+    # return render(request,'myadmin/user/list.html',context)
 
 
 # 会员添加

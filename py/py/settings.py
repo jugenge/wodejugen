@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myhome',
     'myadmin',
+    'ueditor'
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,7 @@ WSGI_APPLICATION = 'py.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'py10',#选择数据库的名,请确认你的mysql中有这个库
+        'NAME': 'py11',#选择数据库的名,请确认你的mysql中有这个库
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST': 'localhost',
