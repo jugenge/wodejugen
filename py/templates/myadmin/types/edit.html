@@ -1,7 +1,7 @@
 {% extends 'myadmin/public/base.html' %}
 
 {% block title %}
-<title>后台会员修改</title>
+<title>后台商品分类添加</title>
 {% endblock %}
 
 {% block header %}
@@ -9,7 +9,7 @@
         <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
             <div class="page-header-heading">
                 <span class="am-icon-home page-header-heading-icon"></span> 
-                会员修改 <small>Amaze UI</small>
+                商品分类添加 <small>Amaze UI</small>
             </div>
         </div>
     </div>
@@ -17,78 +17,37 @@
 
 
 {% block con %}
-<link rel="stylesheet" type="text/css" href="/static/myadmin/css/bootstrap-fileinput.css">
 <div class="row">
     <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
         <div class="widget am-cf">
             <div class="widget-body am-fr">
 
-                <form action="{% url 'myadmin_user_edit' %}?uid={{ uinfo.id }}" method="post" enctype="multipart/form-data" class="am-form tpl-form-line-form">
+                <form action="{% url 'myadmin_types_edit' %}" method="post" enctype="multipart/form-data" class="am-form tpl-form-line-form">
                     {% csrf_token %}
-                    
-
                     <div class="am-form-group">
                         <label for="user-name" class="am-u-sm-3 am-form-label">
-                            用户名
+                            分类名
                         </label>
                         <div class="am-u-sm-9">
-                            <input type="text" value="{{ uinfo.username}}" name="username"  required minlength="2" maxlength="20" class="tpl-form-input"  placeholder="请输入用户名">
-                        </div>
-                    </div>
-                  
-
-                    <div class="am-form-group">
-                        <label for="user-name" class="am-u-sm-3 am-form-label">
-                            邮箱
-                        </label>
-                        <div class="am-u-sm-9">
-                            <input type="text" value="{{ uinfo.email}}" name="email"  required class="tpl-form-input"  placeholder="请输入邮箱">
-                        </div>
-                    </div>
-                    <div class="am-form-group">
-                        <label for="user-name" class="am-u-sm-3 am-form-label">
-                            手机号
-                        </label>
-                        <div class="am-u-sm-9">
-                            <input type="number" value="{{ uinfo.phone}}" name="phone" required class="tpl-form-input"  placeholder="请输入手机号">
-                        </div>
-                    </div>
-                    <div class="am-form-group">
-                        <label for="user-name" class="am-u-sm-3 am-form-label">
-                            年龄
-                        </label>
-                        <div class="am-u-sm-9">
-                            <input type="number" value="{{ uinfo.age}}" name="age" class="tpl-form-input"  placeholder="请输入年龄">
+                            <select name="uid" data-am-selected="{btnSize: 'sm'}">
+                            {% for v in tlist %}
+                                <option value="{{ v.id }}">{{ v.name }}</option>
+                            {% endfor %}
+                            </select>
                         </div>
                     </div>
 
                     <div class="am-form-group">
                         <label for="user-name" class="am-u-sm-3 am-form-label">
-                            性别
+                            新分类名
                         </label>
                         <div class="am-u-sm-9">
-                            <label class="am-radio-inline"><input type="radio" value="男" name="sex" {% if uinfo.sex == '男' %} checked {% endif %}> 男</label>
-                            <label class="am-radio-inline"><input type="radio" value="女" name="sex" {% if uinfo.sex == '女' %} checked {% endif %}> 女</label>
+                            <input type="text" name="name" required minlength="2" maxlength="20" class="tpl-form-input"  placeholder="请输入新分类名">
                         </div>
                     </div>
 
-                    <div class="am-form-group">
-                        <label for="user-weibo" class="am-u-sm-3 am-form-label">上传头像 </label>
-                        
-                        <div class="am-u-sm-9">
-                            <div class="tpl-form-file-img">
-                                <img src="{{ uinfo.pic }}" width="150">
-                            </div>
-                            <br>
-                            <div class="am-form-group am-form-file">
-                                <button type="button" class="am-btn am-btn-danger am-btn-sm">
-                                <i class="am-icon-cloud-upload"></i> 添加头像</button>
-                                <input id="doc-form-file" type="file" name="pic" id="picID" accept="image/gif,image/jpeg,image/x-png">
-                            </div>
 
-                        </div>
-                    </div>
-            
+
                     <div class="am-form-group">
                         <div class="am-u-sm-9 am-u-sm-push-3">
                             <button  class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button></div>
@@ -99,5 +58,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="/static/myadmin/js/bootstrap-fileinput.js"></script>
 {% endblock%}

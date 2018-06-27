@@ -20,7 +20,7 @@ def gettypesorder():
             t = Types.objects.get(id=x.pid)
             x.pname = t.name
         num = x.path.count(',')-1
-        x.name = (num*'|+++')+x.name
+        x.name = (num*'<--->')+x.name
 
     return tlist
     
@@ -85,7 +85,46 @@ def delete(request):
 
 
 def edit(request):
-    pass
+    # 显示修改和执行修改
+    
+    
+    # 获取对象
+    # ob = Goods.objects.get(id=uid)
+
+    if request.method == 'GET':
+        # 接收参数
+
+        uid = request.GET.get('uid',None)
+        print(uid)
+        ob = Types.objects.filter()
+        ob = ob.order_by('path')
+
+        for x in ob:
+            num = x.path.count(',')-1
+            x.name = (num*'<--->')+x.name
+        # 分配数据
+        context = {'tlist':ob}
+        # 显示编辑页面
+        return render(request,'myadmin/types/edit.html',context)
+        
+    if request.method == 'POST':
+        
+        # uid = request.POST.get('uid',None)
+        
+        # name = request.POST.get('name',None)
+        # print(uid,type(uid))
+        # ob = Types.objects.get(id = uid)
+
+        # ob.name = name
+        # ob.path = ob.path
+        # ob.pid = ob.pid
+
+        # ob.save()
+
+        return HttpResponse('<script>alert("修改成功");location.href="'+reverse('myadmin_types_list')+'"</script>')
+        # except:
+        #     return HttpResponse('<script>alert("修改失败");location.href="'+reverse('myadmin_goods_edit')+'?uid='+str(ob.id)+'"</script>')
+
 
 
 

@@ -1,7 +1,7 @@
 {% extends 'myadmin/public/base.html' %}
 
 {% block title %}
-<title>后台商品列表</title>
+<title>后台分类列表</title>
 {% endblock %}
 
 {% block header %}
@@ -9,7 +9,7 @@
         <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
             <div class="page-header-heading">
                 <span class="am-icon-home page-header-heading-icon"></span> 
-                商品分类列表 <small>Amaze UI</small>
+                分类列表 <small>Amaze UI</small>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
         <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
             <div class="widget am-cf">
                 <div class="widget-head am-cf">
-                    <div class="widget-title  am-cf">商品分类列表</div>
+                    <div class="widget-title  am-cf">分类列表</div>
 
 
                 </div>
@@ -41,25 +41,10 @@
                         </div>
                     </div>
                 <form>
-                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
-                        <div class="am-form-group tpl-table-list-select">
-                            <select name='type' data-am-selected="{btnSize: 'sm'}" style="display: none;">
-                              <option value="all" {% if request.GET.type == 'all' %} selected {% endif %} >所有条件</option>
-                              <option value="username" {% if request.GET.type == 'username' %} selected {% endif %} >姓名</option>
-                              <option value="age" {% if request.GET.type == 'age' %} selected {% endif %} >年龄</option>
-                              <option value="email" {% if request.GET.type == 'email' %} selected {% endif %} >邮箱</option>
-                              <option value="phone" {% if request.GET.type == 'phone' %} selected {% endif %} >手机号码</option>
-                              <option value="sex" {% if request.GET.type == 'sex' %} selected {% endif %} >性别</option>
-                              <!-- <option value="option3">超极本</option> -->
-                            </select>
-                        </div>
-                    </div>
+
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                         <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
-                            <input type="text" name='keywords' class="am-form-field " value='{{ request.GET.keywords }}'>
-                            <span class="am-input-group-btn">
-                            <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search"></button>
-                          </span>
+                            
                         </div>
                     </div>
                 </form>
@@ -76,13 +61,13 @@
                             <tbody>
                             {% for v in tlist %}
                                 <tr>
-                                    <td class="am-text-middle">{{ v.id }}</td>
+                                    <td class="am-text-middle">{{ v.pid }}</td>
                                     <td class="am-text-middle">{{ v.name }}</td>
-                                    <td class="am-text-middle">{{ v.pname }}</td>
+                                    <td class="am-text-middle">{{ v.path }}</td>
                                     <td class="am-text-middle">
                     
                                         <div class="tpl-table-black-operation">
-                                            <a href="{% url 'myadmin_user_edit' %}?uid={{ v.id }}">
+                                            <a href="{% url 'myadmin_types_edit' %}?uid={{ v.id }}">
                                                 <i class="am-icon-pencil"></i> 编辑
                                             </a>
                                             <a href="javascript:;" class="tpl-table-black-operation-del">
