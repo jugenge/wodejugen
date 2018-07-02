@@ -16,6 +16,15 @@ class Users(models.Model):
     addtime = models.DateTimeField(auto_now_add=True)
 
 
+# 会员地址
+class Address(models.Model):
+    uid =  models.ForeignKey(to="Users", to_field="id")
+    name = models.CharField(max_length=50)
+    phone = models.CharField(max_length=11)
+    address = models.CharField(max_length=20)
+    xiangxi = models.CharField(max_length=50)
+    status = models.IntegerField(default=0)
+
 
 # 商品分类模型
 class Types(models.Model):
@@ -47,3 +56,29 @@ class Goods(models.Model):
     num = models.IntegerField(default=0)
     clicknum = models.IntegerField(default=0)
     addtime = models.DateTimeField(auto_now_add=True)
+
+
+# 订单模型
+class Orders(models.Model):
+    uid = models.ForeignKey(to="Users", to_field="id")
+    addressid = models.ForeignKey(to="Address", to_field="id")
+    totalprice = models.FloatField()
+    totalnum = models.IntegerField()
+    status = models.IntegerField(default=0)
+    addtime = models.DateTimeField(auto_now_add=True,null=True)
+
+# 订单详情
+class OrderInfo(models.Model):
+    orderid = models.ForeignKey(to="Orders", to_field="id")
+    gid = models.ForeignKey(to="Goods", to_field="id")
+    num = models.IntegerField()
+
+# 城市三级联动
+class Citys(models.Model):
+    # id name upid 
+    name = models.CharField(max_length=100)
+    upid = models.IntegerField()
+
+    # myhome_citys
+    class Meta():
+        db_table = 'citys'

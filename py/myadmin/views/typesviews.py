@@ -66,9 +66,10 @@ def index(request):
 
 def delete(request):
     tid = request.GET.get('uid',None)
+    print(tid)
     # 判断当前类下是否有子类
     num = Types.objects.filter(pid=tid).count()
-
+    # print(num)
     if num != 0:
         data = {'msg':'当前类下有子类,不能删除','code':1}
 

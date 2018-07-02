@@ -41,6 +41,7 @@ def add(request):
             # 执行用户的创建
             ob = Goods()
             ob.pics = data['pics']
+            ob.price = data['price']
             ob.typeid = data['typeid']
             ob.title = data['title']
             ob.save()
@@ -50,6 +51,7 @@ def add(request):
             return HttpResponse('<script>alert("添加失败");location.href="'+reverse('myadmin_goods_add')+'"</script>')
 
             return HttpResponse('post')
+
 
 
 

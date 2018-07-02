@@ -3,6 +3,22 @@ from django.utils.html import format_html
 
 register = template.Library()
 
+
+
+# 过滤器
+@register.filter
+def pricetwo(val):
+
+    res = val * 1.2
+    return res
+
+# 标签
+@register.simple_tag
+def cheng(n1,n2):
+    n2 = int(n2)
+    res = n1*n2
+    return round(res,1)
+
 # 自定义页面优化显示标签
 @register.simple_tag
 def PageShow(count,request):
