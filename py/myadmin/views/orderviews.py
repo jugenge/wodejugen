@@ -4,7 +4,7 @@ from django.http import HttpResponse
 # Create your views here.
 from  ..models import Orders
 def index(request):
-    
+    #  找到所有订单
     orderlist = Orders.objects.all()
 
     # 导入分页类

@@ -1,0 +1,69 @@
+{% extends 'myhome/base.html' %}
+{% block title %}
+    <title>付款页面</title>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/static/myhome/AmazeUI-2.4.2/assets/css/amazeui.css" />
+    <link href="/static/myhome/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+    <link href="/static/myhome/basic/css/demo.css" rel="stylesheet" type="text/css" />
+    <link href="/static/myhome/css/sustyle.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="/static/myhome/basic/js/jquery-1.7.min.js"></script>
+{% endblock %} 
+
+    
+{% block con %}
+  <div class="take-delivery">
+      <div class="status">
+
+
+        <!-- 请为你的订单支付:<br>
+        <p>订单号:{{ orders.id }}</p>
+        <p>订单总价:{{ orders.totalprice }}</p> -->
+
+
+          <h2>付款操作中...</h2>
+          <div class="successInfo">
+              <ul>
+                  <li>付款金额
+                      <em>￥{{ orders.totalprice }}</em></li>
+                  <div class="user-info">
+                      <p>收货人：{{ orders.addressid.name }}</p>
+                      <p>联系电话：{{ orders.addressid.phone }}</p>
+                      <p>订单内数量：{{ orders.totalnum }}</p>
+                      <p>收货地址：{{ orders.addressid.address  }} {{ orders.addressid.xiangxi }}</p>
+                  </div>请认真核对您的收货信息，如有错误请联系客服</ul>
+              <!-- <div class="option">
+                  <span class="info">您可以</span>
+                  <a href="../person/order.html" class="J_MakePoint">查看
+                      <span>已买到的宝贝</span></a>
+                  <a href="../person/orderinfo.html" class="J_MakePoint">查看
+                      <span>交易详情</span></a>
+              </div> -->
+          </div>
+      </div>
+  </div>
+  <div class="footer">
+        <div class="footer-hd">
+            <p>
+                <a href="#">恒望科技</a>
+                <b>|</b>
+                <a href="#">商城首页</a>
+                <b>|</b>
+                <a href="#">支付宝</a>
+                <b>|</b>
+                <a href="#">物流</a></p>
+        </div>
+        <div class="footer-bd">
+            <p>
+                <a href="#">关于恒望</a>
+                <a href="#">合作伙伴</a>
+                <a href="#">联系我们</a>
+                <a href="#">网站地图</a>
+                <em>? 2015-2025 Hengwang.com 版权所有</em></p>
+        </div>
+    </div>
+{% endblock %}

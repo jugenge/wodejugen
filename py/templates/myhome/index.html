@@ -125,12 +125,12 @@
                             <div class="title ">
                                 {{ vv.title }}
                             </div>
-                            <div class="sub-title ">
-                                ¥{{ vv.price }}
+                            <div class="sub-title " style="color: red; font-size: 15px;">
+                                ¥{{ vv.price }}万
                             </div>
                             <i class="am-icon-shopping-basket am-icon-md  seprate"></i>
                         </div>
-                        <a href="{% url 'myhome_info' vv.id %}" ><img style="width: 180px;height: 180px;" src="{{ vv.pics }}" /></a>
+                        <a href="{% url 'myhome_info' vv.id %}" ><img style="width: 190px;height: 150px;" src="{{ vv.pics }}" /></a>
                     </div>
                     {% endfor %}
                 </div>

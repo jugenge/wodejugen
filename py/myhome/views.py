@@ -277,7 +277,7 @@ def editcart(request):
 # 订单确认
 def ordercheck(request):
 
-    print(123)
+    # print(123)
     # 获取购物车提交的数据
     items = eval(request.GET['items'])
 
@@ -377,6 +377,54 @@ def addressadd(request):
     return HttpResponse(0)
 
 
+
+
+
+# 订单确认
+def ordercheck(request):
+    # 获取购物车提交的数据
+    items = eval(request.GET['items'])
+
+    # [{'num': 2, 'goodsid': '4'}, {'num': 3, 'goodsid': '22'}]
+
+    data = {}
+    totalprice = 0
+    totalnum = 0
+
+    for x in items:
+        ob = Goods.objects.get(id=x['goodsid'])
+        x['title'] = ob.title
+        x['price'] = float(ob.price)
+        x['pics'] = ob.pics
+        # 计算总价和总数
+        totalprice += x['num']*x['price']
+        totalnum += x['num']
+
+    data['totalprice'] = round(totalprice,2)
+    data['totalnum'] = totalnum
+    data['items'] = items
+
+    # 把确认的商品信息.,存入session
+    request.session['order'] = data
+
+
+
+    # {
+    #     list:[{'num': 2, 'goodsid': '4'}, {'num': 3, 'goodsid': '22'}],
+    #     totalprice:999.99,
+    #     totalnum:5,
+    # }
+
+    # 需要获取当前用户的收货地址
+    addlist = Address.objects.filter(uid=request.session['VipUser']['uid'])
+
+
+    context = {'data':data,'addlist':addlist}
+  
+    return render(request,'myhome/ordercheck.html',context)
+
+
+
 # 生成订单
 def ordercreate(request):
 
@@ -392,7 +440,7 @@ def ordercreate(request):
     # 获取购物车中的数据
     cart = request.session['cart']
 
-    print(cart)
+
     # 生成订单
     ob = Orders()
     ob.uid = Users.objects.get(id=uid)
@@ -415,18 +463,36 @@ def ordercreate(request):
     # 清楚购物车中已经下单的商品 清楚order数据
     request.session['cart'] = cart 
     request.session['order'] = ''
-
+    print(ob.id)
     # 把生成订单id get请求到一个新的付款页面
     return HttpResponse('<script>alert("订单生成成功");location.href="/buy/?orderid='+str(ob.id)+'"</script>')
 
+# # 支付
+# def buy(request):
+#     # 获取当前的订单id
+#     orderid = request.GET['orderid']
+
+#     print(orderid)
+
+#     return render(request,'myhome/buy.html')
+
+
+
+
+
 # 支付
 def buy(request):
-    # 获取当前的订单id
-    orderid = request.GET['orderid']
+    orderid = request.GET.get('orderid',None)
 
-    print(orderid)
-
-    return render(request,'myhome/buy.html')
+    if orderid:
+        # 通过订单id获取订单信息,并展示
+        orders = Orders.objects.get(id=int(orderid))
+        
+        context = {'orders':orders}
+        
+        return render(request,'myhome/buy.html',context)
+    else:
+        return render(request,'myhome/buy.html')
 
 
 # 我的个人中心
@@ -441,7 +507,7 @@ def myorders(request):
     data = Orders.objects.filter(uid=int(request.session['VipUser']['uid']))
 
     context = {'orderlist':data}
-    print("1")
+
     return render(request,'myhome/word/myorders.html',context)
 
 # session 测试

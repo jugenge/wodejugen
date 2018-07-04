@@ -24,6 +24,9 @@ urlpatterns = [
     url(r'^user/index/$',userviews.index,name='myadmin_user_list'),
     url(r'^user/delete/$',userviews.delete,name='myadmin_user_delete'),
     url(r'^user/edit/$',userviews.edit,name='myadmin_user_edit'),
+    # 后台登录
+    url(r'^user/login/$',userviews.login,name='myadmin_user_login'),
+    url(r'^user/logout/$',userviews.logout,name='myadmin_user_logout'),
     # 订单管理
     url(r'^orders/index/$', orderviews.index,name='myadmin_orders_list'),
 

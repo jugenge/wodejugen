@@ -249,7 +249,10 @@
                                 <form action="{% url 'myhome_ordercreate' %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="addressid" value="">
-                                    <a  id="J_Go" href="{% url 'myhome_myorders' %}" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</a>
+                                    {% for v in addlist %}
+                                    <input type="hidden" name="orderid" value="{{ v.id }}">
+                                    {% endfor %}
+                                    <a  id="J_Go" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</a>
                                 </form>
                                 <script type="text/javascript">
                                     $('#J_Go').click(function(){

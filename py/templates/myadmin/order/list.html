@@ -86,8 +86,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <!-- 遍历所有的订单 -->
                             {% for v in orderlist %}
                                 <tr>
+                                    <!-- 通过遍历 找到orderinfo的详情  -->
                                     {% for goods in v.orderinfo_set.all %}
                                     <td class="am-text-middle">{{ v.id }}</td>
                                     <td>

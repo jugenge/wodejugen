@@ -56,11 +56,9 @@ urlpatterns = [
     # 订单生成
     url(r'^ordercreate/$',views.ordercreate,name='myhome_ordercreate'),
 
-    # 支付
-    url(r'^buy/$',views.buy,name='myhome_buy'),
+    #  支付
+    url(r'^buy/$', views.buy,name='myhome_buy'),
 
-    # 订单管理
-    # url(r'^orders/index/$', orderviews.index,name='myadmin_orders_list'),
 
     # 支付成功
 
@@ -71,6 +69,8 @@ urlpatterns = [
     # session 测试
     url(r'^sesset/$',views.sesset,name='myhome_sesset'),
     url(r'^sesset/$',views.sesset,name='myhome_sesset'),
+    # 三级城市联动
+    url(r'^getcity/$',views.getcity,name="getcity"),
 
 
 

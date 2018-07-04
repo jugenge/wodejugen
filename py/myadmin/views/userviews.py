@@ -3,7 +3,7 @@ from django.http import HttpResponse,JsonResponse
 
 from .. models import Users
 import os
-
+from django.contrib.auth.hashers import make_password,check_password
 # Create your views here
 
 # 会员列表
@@ -82,8 +82,44 @@ def index(request):
     # context = {'userlist':userlist}
     # # 加载模版
     # return render(request,'myadmin/user/list.html',context)
+# 后台会员登录
+def login(request):
+    if request.method == "GET":
+
+        return render(request,"myadmin/login.html")
+
+    elif request.method == "POST":
+        
+        username = request.POST.get('username',None)
+
+        # if username:
+
+        #     user = Users.objects.filter(username = username)
+        #     if not user:
+        #         return HttpResponse("滚回去")
+
+        #     if user.password\ 
+        ob = Users.objects.get(username = request.POST['username'])
+        # 检测密码是否正确
+        res = check_password(request.POST['password'],ob.password)
+        if res:
+            # 密码正确 大于2就是后台的人员
+            if ob.status >= 2:
+                request.session['AdminUser'] = {'uid':ob.id,'username':ob.username}
+                return HttpResponse('<script>alert("登录成功");location.href="/myadmin"</script>')
+            else:
+
+                return HttpResponse('<script>alert("权限不够，不允许登录");location.href="myadmin/login"</script>')
+        else:
+            return HttpResponse('<script>alert("用户名或密码错误！");location.href="myadmin/login"</script>')
 
 
+# 后台退出
+def logout(request):
+    data = {}
+    request.session['AdminUser'] = data
+
+    return HttpResponse("<script>location.href='"+reverse("myadmin_user_login")+"'</script>")
 # 会员添加
 def add(request):
     if request.method == 'GET':
