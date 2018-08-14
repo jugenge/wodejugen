@@ -1,0 +1,4 @@
+
+session的安全性高
+session基于服务端
+cookie基于客户端
